@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :favorite_recipes
   resources :ingredient_yield_in_grams_by_units
   resources :ingredients
   resources :step_ingredients
