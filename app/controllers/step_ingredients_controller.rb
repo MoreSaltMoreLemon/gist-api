@@ -1,2 +1,0 @@
-class StepIngredientsController < ApplicationController
-end

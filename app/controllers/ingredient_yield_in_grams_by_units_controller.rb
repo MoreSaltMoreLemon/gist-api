@@ -1,2 +1,0 @@
-class IngredientYieldInGramsByUnitsController < ApplicationController
-end
