@@ -5,13 +5,13 @@ Rails.application.routes.draw do
       post '/login', to: 'auth#create'
       post '/logout', to: 'auth#destroy'
 
-      resources :favorite_recipes
-      resources :ingredient_yield_in_grams_by_units
+      # resources :favorite_recipes
+      # resources :ingredient_yield_in_grams_by_units
       resources :ingredients
-      resources :step_ingredients
+      # resources :step_ingredients
       resources :steps
-      resources :units
-      resources :user_profiles
+      # resources :units
+      # resources :user_profiles
       resources :users
       resources :recipes
     end
