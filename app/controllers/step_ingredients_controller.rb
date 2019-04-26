@@ -1,0 +1,2 @@
+class StepIngredientsController < ApplicationController
+end

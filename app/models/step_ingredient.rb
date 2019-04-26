@@ -1,0 +1,2 @@
+class StepIngredient < ApplicationRecord
+end
