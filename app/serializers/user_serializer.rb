@@ -1,6 +1,11 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :username
-
-  # has_one :user_profile
+  ActiveModelSerializers.config.default_includes = '**'
+  attributes :id, :username, :recipes
+  
   has_many :recipes
+
+  # def recipes
+  # # byebug
+  #   RecipeSerializer.new(object.recipes)
+  # end
 end
