@@ -25,13 +25,13 @@ Recipe.all.first.steps.build(
 
 Recipe.all.first.steps.first.step_ingredients.build(
   sequence_order: 1,
-  ingredient_id: 1,
+  ingredient_name: 'broccoli',
   quantity: 1,
   unit_id: 1,
   fixed: false
 ).save
 
-Recipe.all.first.steps.first.step_ingredients.first.build_ingredient(
-  name: 'broccoli'
-)
+# Recipe.all.first.steps.first.step_ingredients.first.build_ingredient(
+#   name: 'broccoli'
+# )
 

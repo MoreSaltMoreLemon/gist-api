@@ -5,6 +5,7 @@ class CreateStepIngredients < ActiveRecord::Migration[5.2]
       t.integer :sequence_order
       t.integer :ingredient_id
       t.integer :recipe_id
+      t.decimal :quantity_in_grams
       t.decimal :quantity
       t.integer :unit_id
       t.boolean :fixed

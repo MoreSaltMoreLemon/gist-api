@@ -30,12 +30,6 @@ ActiveRecord::Schema.define(version: 2019_04_26_202147) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "ingredients", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "recipes", force: :cascade do |t|
     t.string "name"
     t.integer "user_id"
@@ -51,8 +45,9 @@ ActiveRecord::Schema.define(version: 2019_04_26_202147) do
   create_table "step_ingredients", force: :cascade do |t|
     t.integer "step_id"
     t.integer "sequence_order"
-    t.integer "ingredient_id"
+    t.string "ingredient_name"
     t.integer "recipe_id"
+    t.decimal "quantity_in_grams"
     t.decimal "quantity"
     t.integer "unit_id"
     t.boolean "fixed"

@@ -1,2 +1,0 @@
-class IngredientYieldInGramsByUnit < ApplicationRecord
-end

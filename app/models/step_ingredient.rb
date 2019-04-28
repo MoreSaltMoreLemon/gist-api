@@ -1,5 +1,5 @@
 class StepIngredient < ApplicationRecord
   belongs_to  :step
-  belongs_to  :ingredient
-  belongs_to  :recipe
+  # has_one  :ingredient
+  # has_one  :recipe
 end
