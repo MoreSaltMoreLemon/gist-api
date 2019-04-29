@@ -8,17 +8,15 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def show
-    byebug
-    render json: @recipe
+    # byebug
+    render json: @recipe, include: ['recipe_ingredients.*', 'recipe_sub_recipes.*']
   end
 
   def create
     byebug
     @recipe = Recipe.create(recipe_params)
     if @recipe.valid?
-      render json: @recipe
-        # { recipe: RecipeSerializer.new(@recipe) }, 
-        # status: :created
+      render json: { recipe: RecipeSerializer.new(@recipe) }, status: :created
     else
       render json: 
         { error: 'failed to create recipe' }, 
@@ -52,7 +50,12 @@ class Api::V1::RecipesController < ApplicationController
   private
 
     def recipe_params
-      params.require(:recipe).permit(:id, :name, :user_id, :scale_factor, :yield_in_grams, :yield, :yield_unit_id, :public, :steps)
+      params.require(:recipe).permit(
+        :id, :name, :user_id, 
+        :scale_factor, :yield_in_grams, 
+        :yield, :yield_unit_id, :public, 
+        :recipe_ingredients, :ingredients,
+        :recipe_sub_recipes)
     end
 
     def find_recipe

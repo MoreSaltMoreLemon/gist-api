@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :colors
+  resources :units
   resources :recipe_ingredients
   resources :recipe_sub_recipes
   namespace :api do
