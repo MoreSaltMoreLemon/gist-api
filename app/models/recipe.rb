@@ -1,8 +1,11 @@
 class Recipe < ApplicationRecord
-  belongs_to  :user
-  has_many    :steps
-  has_many    :step_ingredients, through: :steps
+  belongs_to :user
+  has_many  :recipe_ingredients
+  has_many  :ingredients, through: :recipe_ingredients
 
-  accepts_nested_attributes_for :steps, allow_destroy: true
-  # has_many :users, as: :favorited_users, through: :favorites
+  has_many  :recipe_sub_recipes
+  has_many  :sub_recipes, through: :recipe_sub_recipes
+  # not currently working. If called by the parent, returns itself
+  # if called by the child, returns nothing
+  # has_many  :super_recipes, through: :recipe_sub_recipes, source: :recipe
 end

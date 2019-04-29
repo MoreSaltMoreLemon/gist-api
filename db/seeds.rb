@@ -1,37 +1,56 @@
-User.create(
+ezra = User.create(
   username: 'ezra',
   password_digest: 'password',
   email: 'dummy@mail.com'
 )
 
-Recipe.create(
-  name: 'blasted broccoli',
-  user: User.all.first,
-  scale_factor: 1,
-  yield_in_grams: 2000,
-  yield: 1,
-  yield_unit_id: 1
+spiced_apple_butter = Recipe.create(
+  name: 'spiced apple butter',
+  user: ezra  
 )
 
-Recipe.all.first.steps.build(
-  sequence_order: 1,
-  name: 'roast',
-  yield_in_grams: 2000,
-  yield: 1,
-  yield_unit_id: 1,
-  prep_time_minutes: 1,
-  post_prep_time_minutes: 15
+ing_apple_butter = Ingredient.create(name: "apple butter")
+cayenne = Ingredient.create(name: "cayenne")
+sumac = Ingredient.create(name: "sumac")
+mace = Ingredient.create(name: "mace")
+cinnamon = Ingredient.create(name: "cinnamon")
+
+recipe_apple_butter = Recipe.create(user: ezra, name: 'apple butter', yield: 8000)
+
+step_apple_butter = spiced_apple_butter.recipe_sub_recipes.build(sub_recipe: recipe_apple_butter).save
+
+spiced_apple_butter.recipe_ingredients.build(
+  quantity: 4, 
+  ingredient: cayenne
+).save
+spiced_apple_butter.recipe_ingredients.build(
+  quantity: 4, 
+  ingredient: sumac
+).save
+spiced_apple_butter.recipe_ingredients.build(
+  quantity: 4, 
+  ingredient: mace
+).save
+spiced_apple_butter.recipe_ingredients.build(
+  quantity: 8, 
+  ingredient: cinnamon
 ).save
 
-Recipe.all.first.steps.first.step_ingredients.build(
-  sequence_order: 1,
-  ingredient_name: 'broccoli',
-  quantity: 1,
-  unit_id: 1,
-  fixed: false
-).save
 
-# Recipe.all.first.steps.first.step_ingredients.first.build_ingredient(
-#   name: 'broccoli'
-# )
+ing_apples = Ingredient.create(
+  name: "apples"
+)
 
+ing_orange_peels = Ingredient.create(
+  name: "orange zest"
+)
+
+step_ing_apples = recipe_apple_butter.recipe_ingredients.build(
+  quantity: 20000,
+  ingredient: ing_apples
+)
+
+step_ing_orange_zest = recipe_apple_butter.recipe_ingredients.build(
+  quantity: 8,
+  ingredient: ing_orange_peels
+)

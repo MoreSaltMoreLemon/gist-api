@@ -8,15 +8,17 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def show
+    byebug
     render json: @recipe
   end
 
   def create
+    byebug
     @recipe = Recipe.create(recipe_params)
     if @recipe.valid?
-      render json: 
-        { recipe: RecipeSerializer.new(@recipe) }, 
-        status: :created
+      render json: @recipe
+        # { recipe: RecipeSerializer.new(@recipe) }, 
+        # status: :created
     else
       render json: 
         { error: 'failed to create recipe' }, 
@@ -54,7 +56,8 @@ class Api::V1::RecipesController < ApplicationController
     end
 
     def find_recipe
-      @recipe = recipe.find(params[:id])
+      # byebug
+      @recipe = Recipe.find(params[:id])
     end
 end
 
