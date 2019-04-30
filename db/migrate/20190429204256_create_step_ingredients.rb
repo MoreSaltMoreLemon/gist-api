@@ -7,8 +7,8 @@ class CreateStepIngredients < ActiveRecord::Migration[5.2]
       t.decimal :quantity
       t.integer :unit_id, default: 1
       t.string :instruction
-      t.integer :color_id, default: 1
-      t.boolean :is_sub_recipe
+      t.string :color
+      t.boolean :is_sub_recipe, default: false
 
       t.timestamps
     end

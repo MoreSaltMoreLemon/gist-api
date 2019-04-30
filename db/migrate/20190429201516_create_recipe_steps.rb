@@ -6,6 +6,7 @@ class CreateRecipeSteps < ActiveRecord::Migration[5.2]
       t.decimal :yeild_in_grams
       t.integer :yield_unit_id, default: 1
       t.integer :sequence_order
+      t.string :color
       t.string :name
       t.string :instruction
 

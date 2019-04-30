@@ -25,7 +25,7 @@ ezra = User.create(
 
 spiced_apple_butter = Recipe.create(name: 'spiced apple butter', user: ezra)
 
-step1 = spiced_apple_butter.recipe_steps.build(sequence_order: 0, instruction: 'mix')
+step1 = spiced_apple_butter.recipe_steps.build(sequence_order: 0, instruction: 'mix', name: 'mix', color: '#e3191b', yield: 2000)
 step1.save
 # ing_apple_butter = Ingredient.create(name: "apple butter", sequence_order: 0)
 cayenne = Ingredient.create(name: "cayenne")
@@ -66,7 +66,7 @@ ing_apples = Ingredient.create(name: "apples")
 
 ing_orange_peels = Ingredient.create(name: "orange zest")
 
-other_step = recipe_apple_butter.recipe_steps.build(sequence_order: 0, instruction: 'peel, then roast covered by foil')
+other_step = recipe_apple_butter.recipe_steps.build(sequence_order: 0, instruction: 'peel, then roast covered by foil', name: 'peel & roast', yield: 8000, yield_unit_id: 1)
 other_step.save
 step_ing_apples = other_step.step_ingredients.build(
   quantity: 20000,

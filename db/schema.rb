@@ -23,7 +23,6 @@ ActiveRecord::Schema.define(version: 2019_04_29_204432) do
 
   create_table "ingredients", force: :cascade do |t|
     t.string "name"
-    t.integer "color_id", default: 1
     t.integer "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -35,6 +34,7 @@ ActiveRecord::Schema.define(version: 2019_04_29_204432) do
     t.decimal "yeild_in_grams"
     t.integer "yield_unit_id", default: 1
     t.integer "sequence_order"
+    t.string "color"
     t.string "name"
     t.string "instruction"
     t.datetime "created_at", null: false
@@ -44,7 +44,6 @@ ActiveRecord::Schema.define(version: 2019_04_29_204432) do
   create_table "recipes", force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.integer "color_id", default: 1
     t.integer "user_id"
     t.decimal "scale_factor"
     t.decimal "yield_in_grams"
@@ -62,8 +61,8 @@ ActiveRecord::Schema.define(version: 2019_04_29_204432) do
     t.decimal "quantity"
     t.integer "unit_id", default: 1
     t.string "instruction"
-    t.integer "color_id", default: 1
-    t.boolean "is_sub_recipe"
+    t.string "color"
+    t.boolean "is_sub_recipe", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -75,7 +74,7 @@ ActiveRecord::Schema.define(version: 2019_04_29_204432) do
     t.decimal "quantity"
     t.integer "unit_id", default: 1
     t.string "instruction"
-    t.integer "color_id", default: 1
+    t.string "color"
     t.boolean "is_sub_recipe", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

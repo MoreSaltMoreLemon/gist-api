@@ -3,7 +3,6 @@ class CreateRecipes < ActiveRecord::Migration[5.2]
     create_table :recipes do |t|
       t.string :name
       t.string :description
-      t.integer :color_id, default: 1
       t.integer :user_id
       t.decimal :scale_factor
       t.decimal :yield_in_grams
