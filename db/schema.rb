@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_29_173132) do
+ActiveRecord::Schema.define(version: 2019_04_29_204432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,28 +29,14 @@ ActiveRecord::Schema.define(version: 2019_04_29_173132) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "recipe_ingredients", force: :cascade do |t|
+  create_table "recipe_steps", force: :cascade do |t|
     t.integer "recipe_id"
-    t.integer "ingredient_id"
+    t.decimal "yield"
+    t.decimal "yeild_in_grams"
+    t.integer "yield_unit_id", default: 1
     t.integer "sequence_order"
-    t.decimal "quantity"
-    t.integer "unit_id", default: 1
+    t.string "name"
     t.string "instruction"
-    t.integer "color_id", default: 1
-    t.boolean "is_sub_recipe", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "recipe_sub_recipes", force: :cascade do |t|
-    t.integer "recipe_id"
-    t.integer "sub_recipe_id"
-    t.integer "sequence_order"
-    t.decimal "quantity"
-    t.integer "unit_id", default: 1
-    t.string "instruction"
-    t.integer "color_id", default: 1
-    t.boolean "is_sub_recipe", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -65,6 +51,32 @@ ActiveRecord::Schema.define(version: 2019_04_29_173132) do
     t.decimal "yield"
     t.integer "yield_unit_id", default: 1
     t.boolean "public"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "step_ingredients", force: :cascade do |t|
+    t.integer "recipe_step_id"
+    t.integer "ingredient_id"
+    t.integer "sequence_order"
+    t.decimal "quantity"
+    t.integer "unit_id", default: 1
+    t.string "instruction"
+    t.integer "color_id", default: 1
+    t.boolean "is_sub_recipe"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "step_sub_recipes", force: :cascade do |t|
+    t.integer "recipe_step_id"
+    t.integer "sub_recipe_id"
+    t.integer "sequence_order"
+    t.decimal "quantity"
+    t.integer "unit_id", default: 1
+    t.string "instruction"
+    t.integer "color_id", default: 1
+    t.boolean "is_sub_recipe", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

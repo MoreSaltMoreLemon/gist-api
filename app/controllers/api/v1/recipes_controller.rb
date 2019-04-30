@@ -9,7 +9,7 @@ class Api::V1::RecipesController < ApplicationController
 
   def show
     # byebug
-    render json: @recipe, include: ['recipe_ingredients.*', 'recipe_sub_recipes.*']
+    render json: @recipe, include: ['recipe_steps.*', 'recipe_steps.step_ingredients.*', 'recipe_steps.step_sub_recipes.*']
   end
 
   def create

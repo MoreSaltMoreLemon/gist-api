@@ -1,10 +1,8 @@
 class Recipe < ApplicationRecord
   belongs_to :user
-  has_many  :recipe_ingredients
-  has_many  :ingredients, through: :recipe_ingredients
-
-  has_many  :recipe_sub_recipes
-  has_many  :sub_recipes, through: :recipe_sub_recipes
+  has_many  :recipe_steps
+  has_many  :step_ingredients, through: :recipe_steps
+  has_many  :step_sub_recipes, through: :recipe_steps
 
   belongs_to :color
   belongs_to :yield_unit, class_name: 'Unit'
@@ -12,5 +10,5 @@ class Recipe < ApplicationRecord
   # if called by the child, returns nothing
   # has_many  :super_recipes, through: :recipe_sub_recipes, source: :recipe
 
-  accepts_nested_attributes_for :recipe_ingredients, :ingredients
+  accepts_nested_attributes_for :recipe_steps
 end

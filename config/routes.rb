@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
+  resources :step_sub_recipes
+  resources :step_ingredients
+  resources :recipe_steps
   resources :colors
   resources :units
-  resources :recipe_ingredients
-  resources :recipe_sub_recipes
   namespace :api do
     namespace :v1 do
       get '/login', to: 'auth#new'

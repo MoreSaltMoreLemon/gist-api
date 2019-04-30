@@ -1,7 +1,7 @@
 class IngredientSerializer < ActiveModel::Serializer
-  attributes :id, :name, :category_id, :color_id
+  attributes :id, :name, :color_id
 
-  has_many :recipe_ingredients
+  # has_many :recipe_ingredients
 
   belongs_to :color
 end

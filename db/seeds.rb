@@ -22,34 +22,40 @@ ezra = User.create(
   email: 'dummy@mail.com'
 )
 
+
 spiced_apple_butter = Recipe.create(name: 'spiced apple butter', user: ezra)
 
+step1 = spiced_apple_butter.recipe_steps.build(sequence_order: 0, instruction: 'mix')
+step1.save
 # ing_apple_butter = Ingredient.create(name: "apple butter", sequence_order: 0)
 cayenne = Ingredient.create(name: "cayenne")
 sumac = Ingredient.create(name: "sumac")
 mace = Ingredient.create(name: "mace")
 cinnamon = Ingredient.create(name: "cinnamon")
 
+
 recipe_apple_butter = Recipe.create(user: ezra, name: 'apple butter', yield: 8000)
 
-step_apple_butter = spiced_apple_butter.recipe_sub_recipes.build(sub_recipe: recipe_apple_butter, sequence_order: 0).save
-
-spiced_apple_butter.recipe_ingredients.build(
+# byebug
+step_apple_butter = step1.step_sub_recipes.build(sub_recipe: recipe_apple_butter, sequence_order: 0, quantity: 2000)
+step_apple_butter.save
+step1.step_ingredients.build(
   quantity: 4, 
   ingredient: cayenne,
   sequence_order: 1
 ).save
-spiced_apple_butter.recipe_ingredients.build(
+
+step1.step_ingredients.build(
   quantity: 4, 
   ingredient: sumac,
   sequence_order: 2
 ).save
-spiced_apple_butter.recipe_ingredients.build(
+step1.step_ingredients.build(
   quantity: 4, 
   ingredient: mace,
   sequence_order: 3
 ).save
-spiced_apple_butter.recipe_ingredients.build(
+step1.step_ingredients.build(
   quantity: 8, 
   ingredient: cinnamon,
   sequence_order: 4
@@ -60,14 +66,17 @@ ing_apples = Ingredient.create(name: "apples")
 
 ing_orange_peels = Ingredient.create(name: "orange zest")
 
-step_ing_apples = recipe_apple_butter.recipe_ingredients.build(
+other_step = recipe_apple_butter.recipe_steps.build(sequence_order: 0, instruction: 'peel, then roast covered by foil')
+other_step.save
+step_ing_apples = other_step.step_ingredients.build(
   quantity: 20000,
   ingredient: ing_apples,
   sequence_order: 0
-)
+).save
+# byebug
 
-step_ing_orange_zest = recipe_apple_butter.recipe_ingredients.build(
+step_ing_orange_zest = other_step.step_ingredients.build(
   quantity: 8,
   ingredient: ing_orange_peels,
   sequence_order: 1
-)
+).save
