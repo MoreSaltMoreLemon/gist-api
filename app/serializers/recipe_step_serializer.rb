@@ -1,5 +1,5 @@
 class RecipeStepSerializer < ActiveModel::Serializer
-  attributes :id, :recipe_id, :color, :name, :instruction, :yield, :yeild_in_grams, :yield_unit_id, :sequence_order
+  attributes :id, :uuid, :recipe_id, :color, :name, :instruction, :yield, :yeild_in_grams, :yield_unit_id, :sequence_order
 
   belongs_to  :recipe, serializer: RecipeShortSerializer
   has_many    :step_ingredients

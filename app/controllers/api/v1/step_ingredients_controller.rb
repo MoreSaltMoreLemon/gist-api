@@ -9,7 +9,7 @@ class Api::V1::StepIngredientsController < ApplicationController
 
   def show
     # byebug
-    render json: @step_ingredient, include: ['ingredient'], status: :accepted
+    render json: @step_ingredient, include: ['ingredient.*'], status: :accepted
   end
 
   def create
@@ -31,7 +31,7 @@ class Api::V1::StepIngredientsController < ApplicationController
       instruction: step_ingredient_params[:instruction] || '',
       color: step_ingredient_params[:color] || '#a6cee3',
       sequence_order: sequence_order + 1,
-      is_sub_recipe: step_ingredient_params[:is_sub_recipe] || false,
+      is_sub_recipe: false,
       ingredient: @ingredient)
     if @step_ingredient.valid?
       render json: @step_ingredient, include: ['ingredient.*'], status: :created
@@ -56,11 +56,11 @@ class Api::V1::StepIngredientsController < ApplicationController
       instruction: step_ingredient_params[:instruction] || '',
       color: step_ingredient_params[:color] || '#a6cee3',
       sequence_order: step_ingredient_params[:sequence_order] || 0,
-      is_sub_recipe: step_ingredient_params[:is_sub_recipe] || false,
+      is_sub_recipe: false,
       ingredient: @ingredient)
     # byebug
     if @step_ingredient.save
-      render json: @step_ingredient, include: ['ingredient'], status: :accepted
+      render json: @step_ingredient, include: ['ingredient.*'], status: :accepted
     else
       render json: 
         { errors: @step_ingredient.errors_full_messages }, 
@@ -85,7 +85,7 @@ class Api::V1::StepIngredientsController < ApplicationController
 
     def step_ingredient_params
       
-      params.require(:step_ingredient).permit(:id, :recipe_step_id, :ingredient_id, :quantity, :unit_id, :instruction, :color, :sequence_order, :is_sub_recipe, ingredient: [:id, :name, :category_id])
+      params.require(:step_ingredient).permit(:id, :recipe_step_id, :ingredient_id, :quantity, :unit_id, :instruction, :color, :sequence_order, :is_sub_recipe, ingredient: [:id, :name])
     end
 
     def find_step_ingredient

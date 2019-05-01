@@ -1,5 +1,5 @@
 class RecipeSerializer < ActiveModel::Serializer
-  attributes :id, :name, :description, :user_id, :scale_factor, :yield_in_grams, :yield, :yield_unit_id, :public
+  attributes :id, :uuid, :name, :description, :user_id, :scale_factor, :yield_in_grams, :yield, :yield_unit_id, :public
   # byebug
   belongs_to :user
   has_many  :recipe_steps
