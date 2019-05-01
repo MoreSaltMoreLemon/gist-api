@@ -53,7 +53,7 @@ class Api::V1::RecipeStepsController < ApplicationController
 
     def recipe_step_params
       params.require(:recipe_step).permit(
-        :recipe_id, :id, :name, :yield_in_grams, 
+        :recipe_id, :id, :uuid, :name, :yield_in_grams, 
         :yield, :yield_unit_id, :color, :sequence_order)
     end
 

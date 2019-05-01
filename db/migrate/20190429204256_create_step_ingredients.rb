@@ -1,6 +1,7 @@
 class CreateStepIngredients < ActiveRecord::Migration[5.2]
   def change
     create_table :step_ingredients do |t|
+      t.string :uuid, default: ''
       t.integer :recipe_step_id
       t.integer :ingredient_id
       t.integer :sequence_order, default: 0

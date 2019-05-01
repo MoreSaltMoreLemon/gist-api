@@ -31,6 +31,9 @@ gem 'rack-cors'
 # Serializes multiple models into single JSON
 gem 'active_model_serializers', '~> 0.10.0'
 
+# UUID generator for producing universally unique identifiers based on RFC 4122 
+gem 'uuid', '~> 2.3', '>= 2.3.8'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

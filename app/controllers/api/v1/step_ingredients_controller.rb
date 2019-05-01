@@ -25,6 +25,7 @@ class Api::V1::StepIngredientsController < ApplicationController
     # creating a record. Cannot dirctly use strong params to create as it
     # needs the reference to the ingredient and nested params are garbage.
     @step_ingredient = StepIngredient.create(
+      uuid: step_ingredient_params[:uuid],
       recipe_step_id: step_ingredient_params[:recipe_step_id],
       quantity: step_ingredient_params[:quantity] || 0,
       unit_id: step_ingredient_params[:unit_id] || 1,
@@ -50,6 +51,7 @@ class Api::V1::StepIngredientsController < ApplicationController
     # creating a record. Cannot dirctly use strong params to create as it
     # needs the reference to the ingredient and nested params are garbage.
     @step_ingredient.update(
+      uuid: step_ingredient_params[:uuid],
       recipe_step_id: step_ingredient_params[:recipe_step_id],
       quantity: step_ingredient_params[:quantity] || 0,
       unit_id: step_ingredient_params[:unit_id] || 1,
@@ -85,7 +87,7 @@ class Api::V1::StepIngredientsController < ApplicationController
 
     def step_ingredient_params
       
-      params.require(:step_ingredient).permit(:id, :recipe_step_id, :ingredient_id, :quantity, :unit_id, :instruction, :color, :sequence_order, :is_sub_recipe, ingredient: [:id, :name])
+      params.require(:step_ingredient).permit(:id, :uuid, :recipe_step_id, :ingredient_id, :quantity, :unit_id, :instruction, :color, :sequence_order, :is_sub_recipe, ingredient: [:id, :name])
     end
 
     def find_step_ingredient

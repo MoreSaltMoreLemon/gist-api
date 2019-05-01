@@ -1,6 +1,7 @@
 class CreateRecipeSteps < ActiveRecord::Migration[5.2]
   def change
     create_table :recipe_steps do |t|
+      t.string :uuid, default: ''
       t.integer :recipe_id
       t.decimal :yield, default: 0
       t.decimal :yeild_in_grams, default: 0

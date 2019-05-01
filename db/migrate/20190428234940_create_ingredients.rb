@@ -1,6 +1,7 @@
 class CreateIngredients < ActiveRecord::Migration[5.2]
   def change
     create_table :ingredients do |t|
+      t.string :uuid, default: ''
       t.string :name
       t.integer :category_id
 

@@ -1,6 +1,7 @@
 class CreateStepSubRecipes < ActiveRecord::Migration[5.2]
   def change
     create_table :step_sub_recipes do |t|
+      t.string :uuid, default: ''
       t.integer :recipe_step_id
       t.integer :sub_recipe_id
       t.integer :sequence_order, default: 0

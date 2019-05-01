@@ -8,17 +8,24 @@ class Api::V1::StepSubRecipesController < ApplicationController
   end
 
   def show
-    byebug
+    # byebug
     render json: @step_sub_recipe, include: ['sub_recipe.*'], status: :accepted
   end
 
   def create
-    byebug
+    # byebug
     @recipe = Recipe.find_by(name: step_sub_recipe_params[:sub_recipe][:name])
     if @recipe.nil?
-      @user = User.find(step_sub_recipe_params[:user_id])
-      # byebug
+      @user = User.find(step_sub_recipe_params[:sub_recipe][:user_id])
+      
+      if step_sub_recipe_params[:sub_recipe][:uuid].nil?
+        uuid = UUID.new.generate
+      else
+        uuid = step_sub_recipe_params[:sub_recipe][:uuid]
+      end
+
       @recipe = Recipe.create(
+        uuid: uuid, 
         name: step_sub_recipe_params[:sub_recipe][:name], 
         user: @user
       )
@@ -34,6 +41,7 @@ class Api::V1::StepSubRecipesController < ApplicationController
     # creating a record. Cannot dirctly use strong params to create as it
     # needs the reference to the ingredient and nested params are garbage.
     @step_sub_recipe = StepSubRecipe.create(
+      uuid: step_sub_recipe_params[:uuid],
       recipe_step: @recipe_step,
       sub_recipe: @recipe,
       quantity: step_sub_recipe_params[:quantity] || 0,
@@ -52,21 +60,38 @@ class Api::V1::StepSubRecipesController < ApplicationController
   end
 
   def update
-    byebug
-    @ingredient = Ingredient.find_or_create_by(name: step_sub_recipe_params[:ingredient][:name])
+    # byebug
+    @recipe = Recipe.find_by(name: step_sub_recipe_params[:sub_recipe][:name])
+    if @recipe.nil?
+      @user = User.find(step_sub_recipe_params[:sub_recipe][:user_id])
+      
+      if step_sub_recipe_params[:sub_recipe][:uuid].nil?
+        uuid = UUID.new.generate
+      else
+        uuid = step_sub_recipe_params[:sub_recipe][:uuid]
+      end
+
+      @recipe = Recipe.create(
+        uuid: uuid, 
+        name: step_sub_recipe_params[:sub_recipe][:name], 
+        user: @user
+      )
+      # byebug
+    end
     # byebug
     # monstrosity used to get around Rails odd handling of errors when
     # creating a record. Cannot dirctly use strong params to create as it
     # needs the reference to the ingredient and nested params are garbage.
     @step_sub_recipe.update(
+      uuid: step_sub_recipe_params[:uuid],
       recipe_step_id: step_sub_recipe_params[:recipe_step_id],
       quantity: step_sub_recipe_params[:quantity] || 0,
       unit_id: step_sub_recipe_params[:unit_id] || 1,
       instruction: step_sub_recipe_params[:instruction] || '',
       color: step_sub_recipe_params[:color] || '#a6cee3',
       sequence_order: step_sub_recipe_params[:sequence_order] || 0,
-      is_sub_recipe: false,
-      ingredient: @ingredient)
+      is_sub_recipe: true,
+      sub_recipe: @recipe)
     # byebug
     if @step_sub_recipe.save
       render json: @step_sub_recipe, include: ['sub_recipe.*'], status: :accepted
@@ -78,7 +103,7 @@ class Api::V1::StepSubRecipesController < ApplicationController
   end
 
   def destroy
-    byebug
+    # byebug
     if @step_sub_recipe.destroy
       render json:
         { step_sub_recipe_destroyed: true },
@@ -94,7 +119,11 @@ class Api::V1::StepSubRecipesController < ApplicationController
 
     def step_sub_recipe_params
       
-      params.require(:step_sub_recipe).permit(:id, :user_id, :recipe_step_id, :sub_recipe_id, :quantity, :unit_id, :instruction, :color, :sequence_order, :is_sub_recipe, sub_recipe: [:id, :name])
+      params.require(:step_sub_recipe).permit(
+        :id, :uuid, :recipe_step_id, 
+        :sub_recipe_id, :quantity, :unit_id, 
+        :instruction, :color, :sequence_order, 
+        :is_sub_recipe, sub_recipe: [:id, :name, :user_id])
     end
 
     def find_step_sub_recipe

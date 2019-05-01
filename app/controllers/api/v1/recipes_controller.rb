@@ -63,7 +63,7 @@ class Api::V1::RecipesController < ApplicationController
 
     def recipe_params
       params.require(:recipe).permit(
-        :id, :name, :description, :user_id, 
+        :id, :uuid, :name, :description, :user_id, 
         :scale_factor, :yield_in_grams, 
         :yield, :yield_unit_id, :public, 
         recipe_steps: [])
