@@ -30,26 +30,26 @@ ActiveRecord::Schema.define(version: 2019_04_29_204432) do
 
   create_table "recipe_steps", force: :cascade do |t|
     t.integer "recipe_id"
-    t.decimal "yield"
-    t.decimal "yeild_in_grams"
+    t.decimal "yield", default: "0.0"
+    t.decimal "yeild_in_grams", default: "0.0"
     t.integer "yield_unit_id", default: 1
-    t.integer "sequence_order"
-    t.string "color"
-    t.string "name"
-    t.string "instruction"
+    t.integer "sequence_order", default: 0
+    t.string "color", default: "#a6cee3"
+    t.string "name", default: ""
+    t.string "instruction", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "recipes", force: :cascade do |t|
-    t.string "name"
-    t.string "description"
+    t.string "name", default: ""
+    t.string "description", default: ""
     t.integer "user_id"
-    t.decimal "scale_factor"
-    t.decimal "yield_in_grams"
-    t.decimal "yield"
+    t.decimal "scale_factor", default: "0.0"
+    t.decimal "yield_in_grams", default: "0.0"
+    t.decimal "yield", default: "0.0"
     t.integer "yield_unit_id", default: 1
-    t.boolean "public"
+    t.boolean "public", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -57,11 +57,11 @@ ActiveRecord::Schema.define(version: 2019_04_29_204432) do
   create_table "step_ingredients", force: :cascade do |t|
     t.integer "recipe_step_id"
     t.integer "ingredient_id"
-    t.integer "sequence_order"
-    t.decimal "quantity"
+    t.integer "sequence_order", default: 0
+    t.decimal "quantity", default: "0.0"
     t.integer "unit_id", default: 1
-    t.string "instruction"
-    t.string "color"
+    t.string "instruction", default: ""
+    t.string "color", default: "#a6cee3"
     t.boolean "is_sub_recipe", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -70,11 +70,11 @@ ActiveRecord::Schema.define(version: 2019_04_29_204432) do
   create_table "step_sub_recipes", force: :cascade do |t|
     t.integer "recipe_step_id"
     t.integer "sub_recipe_id"
-    t.integer "sequence_order"
-    t.decimal "quantity"
+    t.integer "sequence_order", default: 0
+    t.decimal "quantity", default: "0.0"
     t.integer "unit_id", default: 1
-    t.string "instruction"
-    t.string "color"
+    t.string "instruction", default: ""
+    t.string "color", default: "#a6cee3"
     t.boolean "is_sub_recipe", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

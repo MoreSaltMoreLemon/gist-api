@@ -1,14 +1,14 @@
 class CreateRecipes < ActiveRecord::Migration[5.2]
   def change
     create_table :recipes do |t|
-      t.string :name
-      t.string :description
+      t.string :name, default: ''
+      t.string :description, default: ''
       t.integer :user_id
-      t.decimal :scale_factor
-      t.decimal :yield_in_grams
-      t.decimal :yield
+      t.decimal :scale_factor, default: 0
+      t.decimal :yield_in_grams, default: 0
+      t.decimal :yield, default: 0
       t.integer :yield_unit_id, default: 1
-      t.boolean :public
+      t.boolean :public, default: false
 
       t.timestamps
     end

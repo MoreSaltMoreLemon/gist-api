@@ -2,13 +2,13 @@ class CreateRecipeSteps < ActiveRecord::Migration[5.2]
   def change
     create_table :recipe_steps do |t|
       t.integer :recipe_id
-      t.decimal :yield
-      t.decimal :yeild_in_grams
+      t.decimal :yield, default: 0
+      t.decimal :yeild_in_grams, default: 0
       t.integer :yield_unit_id, default: 1
-      t.integer :sequence_order
-      t.string :color
-      t.string :name
-      t.string :instruction
+      t.integer :sequence_order, default: 0
+      t.string :color, default: '#a6cee3'
+      t.string :name, default: ''
+      t.string :instruction, default: ''
 
       t.timestamps
     end

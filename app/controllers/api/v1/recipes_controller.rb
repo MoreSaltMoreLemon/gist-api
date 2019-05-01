@@ -9,25 +9,36 @@ class Api::V1::RecipesController < ApplicationController
 
   def show
     # byebug
-    render json: @recipe, include: ['recipe_steps.*', 'recipe_steps.step_ingredients.*', 'recipe_steps.step_sub_recipes.*']
+    render json: @recipe, include: [
+      'recipe_steps.*', 
+      'recipe_steps.step_ingredients.*', 
+      'recipe_steps.step_sub_recipes.*'
+      ], status: :accepted
   end
 
   def create
-    byebug
+    # byebug
     @recipe = Recipe.create(recipe_params)
     if @recipe.valid?
-      render json: { recipe: RecipeSerializer.new(@recipe) }, status: :created
+      render json: @recipe, include: [
+        'recipe_steps.*', 
+        'recipe_steps.step_ingredients.*', 
+        'recipe_steps.step_sub_recipes.*'
+        ], status: :created
     else
-      render json: 
-        { error: 'failed to create recipe' }, 
-        status: :not_acceptable
+      render json: { error: 'failed to create recipe' }, status: :not_acceptable
     end
   end
 
   def update
+    # byebug
     @recipe.update(recipe_params)
     if @recipe.save
-      render json: @recipe, status: :accepted
+      render json: @recipe, include: [
+        'recipe_steps.*', 
+        'recipe_steps.step_ingredients.*', 
+        'recipe_steps.step_sub_recipes.*'
+        ], status: :accepted
     else
       render json: 
         { errors: @recipe.errors_full_messages }, 
@@ -36,9 +47,10 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def destroy
+    # byebug
     if @recipe.destroy
       render json:
-        { player_destroyed: true },
+        { recipe_destroyed: true },
         status: :accepted
     else 
       render json:
@@ -51,11 +63,10 @@ class Api::V1::RecipesController < ApplicationController
 
     def recipe_params
       params.require(:recipe).permit(
-        :id, :name, :user_id, 
+        :id, :name, :description, :user_id, 
         :scale_factor, :yield_in_grams, 
         :yield, :yield_unit_id, :public, 
-        :recipe_ingredients, :ingredients,
-        :recipe_sub_recipes)
+        recipe_steps: [])
     end
 
     def find_recipe
