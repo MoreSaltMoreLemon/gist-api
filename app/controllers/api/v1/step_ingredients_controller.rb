@@ -17,9 +17,12 @@ class Api::V1::StepIngredientsController < ApplicationController
     @ingredient = Ingredient.find_or_create_by(name: step_ingredient_params[:ingredient][:name])
     @recipe_step = RecipeStep.find(step_ingredient_params[:recipe_step_id])
     if @recipe_step.step_ingredients.length == 0
-      sequence_order = 0
+      sub_recipe_sequence_order = @recipe_step.step_sub_recipes.max_by {|ri| ri.sequence_order}.sequence_order
+      sequence_order = sub_recipe_sequence_order > 0 ? sub_recipe_sequence_order : 0
     else
-      sequence_order = @recipe_step.step_ingredients.max_by {|ri| ri.sequence_order}.sequence_order
+      sub_recipe_sequence_order = @recipe_step.step_sub_recipes.max_by {|ri| ri.sequence_order}.sequence_order
+      ingredient_sequence_order = @recipe_step.step_ingredients.max_by {|ri| ri.sequence_order}.sequence_order
+      sequence_order = sub_recipe_sequence_order > ingredient_sequence_order ? sub_recipe_sequence_order : ingredient_sequence_order
     end
     # monstrosity used to get around Rails odd handling of errors when
     # creating a record. Cannot dirctly use strong params to create as it
