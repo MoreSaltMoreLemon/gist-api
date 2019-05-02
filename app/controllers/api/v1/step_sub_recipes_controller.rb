@@ -29,17 +29,10 @@ class Api::V1::StepSubRecipesController < ApplicationController
         name: step_sub_recipe_params[:sub_recipe][:name], 
         user: @user
       )
-      # byebug
     end
     @recipe_step = RecipeStep.find(step_sub_recipe_params[:recipe_step_id])
-    if @recipe_step.step_sub_recipes.length == 0
-      ingredient_sequence_order = @recipe_step.step_ingredients.max_by {|ri| ri.sequence_order}.sequence_order
-      sequence_order = ingredient_sequence_order > 0 ? ingredient_sequence_order : 0
-    else
-      sub_recipe_sequence_order = @recipe_step.step_sub_recipes.max_by {|ri| ri.sequence_order}.sequence_order
-      ingredient_sequence_order = @recipe_step.step_ingredients.max_by {|ri| ri.sequence_order}.sequence_order
-      sequence_order = sub_recipe_sequence_order > ingredient_sequence_order ? sub_recipe_sequence_order : ingredient_sequence_order
-    end
+    # byebug
+  
     # monstrosity used to get around Rails odd handling of errors when
     # creating a record. Cannot dirctly use strong params to create as it
     # needs the reference to the ingredient and nested params are garbage.
@@ -51,7 +44,7 @@ class Api::V1::StepSubRecipesController < ApplicationController
       unit_id: step_sub_recipe_params[:unit_id] || 1,
       instruction: step_sub_recipe_params[:instruction] || '',
       color: step_sub_recipe_params[:color] || '#a6cee3',
-      sequence_order: sequence_order + 1,
+      sequence_order: @recipe_step.next_sequence_order,
       is_sub_recipe: true)
     if @step_sub_recipe.valid?
       render json: @step_sub_recipe, include: ['sub_recipe.*'], status: :created
@@ -100,7 +93,7 @@ class Api::V1::StepSubRecipesController < ApplicationController
       render json: @step_sub_recipe, include: ['sub_recipe.*'], status: :accepted
     else
       render json: 
-        { errors: @step_sub_recipe.errors_full_messages }, 
+        { error: 'failed to update step_sub_recipe', errors: @step_sub_recipe.errors_full_messages }, 
         status: :unprocessible_entity
     end
   end
@@ -113,7 +106,7 @@ class Api::V1::StepSubRecipesController < ApplicationController
         status: :accepted
     else 
       render json:
-        { errors: @step_sub_recipe.errors_full_messages },
+        { error: 'failed to delete step_sub_recipe', errors: @step_sub_recipe.errors_full_messages },
         status: :unprocessible_entity
     end
   end

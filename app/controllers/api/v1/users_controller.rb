@@ -31,7 +31,7 @@ class Api::V1::UsersController < ApplicationController
       render json: @user, status: :accepted
     else
       render json: 
-        { errors: @user.errors_full_messages }, 
+        { error: 'failed to update user', errors: @user.errors_full_messages }, 
         status: :unprocessible_entity
     end
   end
@@ -43,7 +43,7 @@ class Api::V1::UsersController < ApplicationController
         status: :accepted
     else 
       render json:
-        { errors: @user.errors_full_messages },
+        { error: 'failed to delete user', errors: @user.errors_full_messages },
         status: :unprocessible_entity
     end
   end

@@ -41,7 +41,7 @@ class Api::V1::RecipesController < ApplicationController
         ], status: :accepted
     else
       render json: 
-        { errors: @recipe.errors_full_messages }, 
+        { error: 'failed to update recipe', errors: @recipe.errors_full_messages }, 
         status: :unprocessible_entity
     end
   end
@@ -54,7 +54,7 @@ class Api::V1::RecipesController < ApplicationController
         status: :accepted
     else 
       render json:
-        { errors: @recipe.errors_full_messages },
+        { error: 'failed to delete recipe', errors: @recipe.errors_full_messages },
         status: :unprocessible_entity
     end
   end

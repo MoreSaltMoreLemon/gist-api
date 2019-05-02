@@ -14,16 +14,23 @@ class Api::V1::StepIngredientsController < ApplicationController
 
   def create
     # byebug
-    @ingredient = Ingredient.find_or_create_by(name: step_ingredient_params[:ingredient][:name])
-    @recipe_step = RecipeStep.find(step_ingredient_params[:recipe_step_id])
-    if @recipe_step.step_ingredients.length == 0
-      sub_recipe_sequence_order = @recipe_step.step_sub_recipes.max_by {|ri| ri.sequence_order}.sequence_order
-      sequence_order = sub_recipe_sequence_order > 0 ? sub_recipe_sequence_order : 0
-    else
-      sub_recipe_sequence_order = @recipe_step.step_sub_recipes.max_by {|ri| ri.sequence_order}.sequence_order
-      ingredient_sequence_order = @recipe_step.step_ingredients.max_by {|ri| ri.sequence_order}.sequence_order
-      sequence_order = sub_recipe_sequence_order > ingredient_sequence_order ? sub_recipe_sequence_order : ingredient_sequence_order
+    
+    @ingredient = Ingredient.find_by(name: step_ingredient_params[:ingredient][:name])
+    if @ingredient.nil?
+      if step_ingredient_params[:ingredient][:uuid].nil?
+        uuid = UUID.new.generate
+      else
+        uuid = step_ingredient_params[:ingredient][:uuid]
+      end
+
+      @ingredient = Ingredient.create(
+        uuid: uuid, 
+        name: step_ingredient_params[:ingredient][:name], 
+      )
     end
+
+    @recipe_step = RecipeStep.find(step_ingredient_params[:recipe_step_id])
+    # byebug
     # monstrosity used to get around Rails odd handling of errors when
     # creating a record. Cannot dirctly use strong params to create as it
     # needs the reference to the ingredient and nested params are garbage.
@@ -34,12 +41,13 @@ class Api::V1::StepIngredientsController < ApplicationController
       unit_id: step_ingredient_params[:unit_id] || 1,
       instruction: step_ingredient_params[:instruction] || '',
       color: step_ingredient_params[:color] || '#a6cee3',
-      sequence_order: sequence_order + 1,
+      sequence_order: @recipe_step.next_sequence_order,
       is_sub_recipe: false,
       ingredient: @ingredient)
     if @step_ingredient.valid?
       render json: @step_ingredient, include: ['ingredient.*'], status: :created
     else
+      byebug
       render json: 
         { error: 'failed to create step_ingredient' }, 
         status: :not_acceptable
@@ -68,7 +76,7 @@ class Api::V1::StepIngredientsController < ApplicationController
       render json: @step_ingredient, include: ['ingredient.*'], status: :accepted
     else
       render json: 
-        { errors: @step_ingredient.errors_full_messages }, 
+        { error: 'failed to update step_ingredient', errors: @step_ingredient.errors_full_messages }, 
         status: :unprocessible_entity
     end
   end
@@ -81,7 +89,7 @@ class Api::V1::StepIngredientsController < ApplicationController
         status: :accepted
     else 
       render json:
-        { errors: @step_ingredient.errors_full_messages },
+        { error: 'failed to delete step_ingredient', errors: @step_ingredient.errors_full_messages },
         status: :unprocessible_entity
     end
   end

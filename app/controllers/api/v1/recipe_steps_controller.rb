@@ -12,8 +12,26 @@ class Api::V1::RecipeStepsController < ApplicationController
   end
 
   def create
+    @recipe = Recipe.find(recipe_step_params[:recipe_id])
+    
+    if recipe_step_params[:uuid].nil?
+      uuid = UUID.new.generate
+    else
+      uuid = recipe_step_params[:uuid]
+    end
+    
     # byebug
-    @recipe_step = RecipeStep.create(recipe_step_params)
+    @recipe_step = RecipeStep.create(
+      recipe: @recipe,
+      uuid: uuid,
+      name: recipe_step_params[:name] || '',
+      yield_in_grams: recipe_step_params[:yield_in_grams] || 0,
+      yield: recipe_step_params[:yield] || 0,
+      yield_unit_id: recipe_step_params[:yield_unit_id] || 1,
+      color: recipe_step_params[:color] || '#a6cee3',
+      sequence_order: @recipe.next_sequence_order
+    )
+
     if @recipe_step.valid?
       render json: @recipe_step, include: ['step_ingredients.*', 'step_sub_recipes.*'], status: :created
     else
@@ -31,7 +49,7 @@ class Api::V1::RecipeStepsController < ApplicationController
       render json: @recipe_step, include: ['step_ingredients.*', 'step_sub_recipes.*'], status: :accepted
     else
       render json: 
-        { errors: @recipe_step.errors_full_messages }, 
+        { error: 'failed to update recipe_step', errors: @recipe_step.errors_full_messages }, 
         status: :unprocessible_entity
     end
   end
@@ -44,7 +62,7 @@ class Api::V1::RecipeStepsController < ApplicationController
         status: :accepted
     else 
       render json:
-        { errors: @recipe_step.errors_full_messages },
+        { error: 'failed to update recipe_step', errors: @recipe_step.errors_full_messages },
         status: :unprocessible_entity
     end
   end

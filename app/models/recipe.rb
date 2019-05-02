@@ -10,4 +10,14 @@ class Recipe < ApplicationRecord
   # has_many  :super_recipes, through: :recipe_sub_recipes, source: :recipe
 
   accepts_nested_attributes_for :recipe_steps
+
+  def next_sequence_order
+    # byebug
+    if self.recipe_steps.empty?
+      0
+    else
+      recipe_step_sequence_order = self.recipe_steps.max_by {|rs| rs.sequence_order}.sequence_order
+      recipe_step_sequence_order + 1
+    end
+  end
 end
