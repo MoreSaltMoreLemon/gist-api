@@ -4,7 +4,8 @@ class Api::V1::RecipesController < ApplicationController
 
   def index
     @recipes = Recipe.all
-    render json: @recipes
+    byebug
+    render json: @recipes, each_serializer: RecipeShortSerializer, status: :accepted
   end
 
   def show
