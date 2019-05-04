@@ -8,7 +8,6 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def show
-    # byebug
     render json: @recipe, include: [
       'recipe_steps.*', 
       'recipe_steps.step_ingredients.*', 

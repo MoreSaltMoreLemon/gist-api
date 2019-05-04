@@ -11,6 +11,7 @@ class Recipe < ApplicationRecord
 
   accepts_nested_attributes_for :recipe_steps
 
+
   def next_sequence_order
     # byebug
     if self.recipe_steps.empty?
