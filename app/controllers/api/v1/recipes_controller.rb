@@ -49,8 +49,8 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def destroy
-    byebug
-    @recipe.step_sub_recipes
+    # byebug
+    # @recipe.step_sub_recipes
     if @recipe.destroy
       render json:
         { recipe_destroyed: true },
