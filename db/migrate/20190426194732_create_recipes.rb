@@ -4,6 +4,7 @@ class CreateRecipes < ActiveRecord::Migration[5.2]
       t.string :uuid, default: ''
       t.string :name, default: ''
       t.string :description, default: ''
+      t.string :image_url, default: ''
       t.integer :user_id
       t.decimal :scale_factor, default: 0
       t.decimal :yield_in_grams, default: 0

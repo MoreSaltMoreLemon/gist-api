@@ -4,8 +4,10 @@ class Api::V1::RecipesController < ApplicationController
 
   def index
     @recipes = Recipe.all
-    byebug
+    # byebug
     render json: @recipes, each_serializer: RecipeShortSerializer, status: :accepted
+    #ActiveModel::SerializableResource.new(@recipes, adapter: :json_api).to_json #
+    
   end
 
   def show
@@ -47,7 +49,8 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def destroy
-    # byebug
+    byebug
+    @recipe.step_sub_recipes
     if @recipe.destroy
       render json:
         { recipe_destroyed: true },
@@ -65,8 +68,8 @@ class Api::V1::RecipesController < ApplicationController
       params.require(:recipe).permit(
         :id, :uuid, :name, :description, :user_id, 
         :scale_factor, :yield_in_grams, 
-        :yield, :yield_unit_id, :public, 
-        recipe_steps: [])
+        :yield, :yield_unit_id, :public,
+        :image_url, recipe_steps: [])
     end
 
     def find_recipe

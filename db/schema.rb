@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 2019_04_29_204432) do
     t.string "uuid", default: ""
     t.string "name", default: ""
     t.string "description", default: ""
+    t.string "image_url", default: ""
     t.integer "user_id"
     t.decimal "scale_factor", default: "0.0"
     t.decimal "yield_in_grams", default: "0.0"
@@ -95,7 +96,7 @@ ActiveRecord::Schema.define(version: 2019_04_29_204432) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "uuid", default: ""
+    # t.string "uuid", default: ""
     t.string "username"
     t.string "password_digest"
     t.string "email"

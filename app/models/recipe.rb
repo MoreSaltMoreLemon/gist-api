@@ -3,6 +3,7 @@ class Recipe < ApplicationRecord
   has_many  :recipe_steps
   has_many  :step_ingredients, through: :recipe_steps
   has_many  :step_sub_recipes, through: :recipe_steps
+  # has_many  :step_sub_recipes, as: :sub_recipe
 
   belongs_to :yield_unit, class_name: 'Unit'
   # not currently working. If called by the parent, returns itself

@@ -1,3 +1,3 @@
 class UnitSerializer < ActiveModel::Serializer
-  attributes :id, :uuid, :name, :gram_conversion_factor
+  attributes :id, :name, :gram_conversion_factor
 end

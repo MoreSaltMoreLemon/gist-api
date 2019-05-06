@@ -1,13 +1,14 @@
 units = [
   {name: 'g', gram_conversion_factor: 1}, 
-  {name: 'kg', gram_conversion_factor: 1},
-  {name: 'oz', gram_conversion_factor: 1},
-  {name: 'fl oz', gram_conversion_factor: 1},
-  {name: 'each', gram_conversion_factor: 1},
-  {name: 'bunch', gram_conversion_factor: 1},
-  {name: 'pkg', gram_conversion_factor: 1},
-  {name: 'can', gram_conversion_factor: 1},
-  {name: 'container', gram_conversion_factor: 1}
+  {name: 'kg', gram_conversion_factor: 1000},
+  {name: 'lb', gram_conversion_factor: 453.59},
+  {name: 'oz', gram_conversion_factor: 28.35},
+  {name: 'fl oz', gram_conversion_factor: 28.35},
+  {name: 'each', gram_conversion_factor: nil},
+  {name: 'bunch', gram_conversion_factor: nil},
+  {name: 'pkg', gram_conversion_factor: nil},
+  {name: 'can', gram_conversion_factor: nil},
+  {name: 'container', gram_conversion_factor: nil}
 ]
 
 units.map {|u| Unit.create(name: u[:name], gram_conversion_factor: u[:gram_conversion_factor])}

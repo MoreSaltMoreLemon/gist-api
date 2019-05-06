@@ -11,7 +11,7 @@ Rails.application.routes.draw do
       resources :step_ingredients
       resources :ingredients
       resources :step_sub_recipes
-      resources :units
+      resources :units, only: :index
     end
   end
 end
