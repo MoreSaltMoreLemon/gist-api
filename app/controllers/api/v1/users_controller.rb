@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  # skip_before_action :authorized, only: [:create]
+  skip_before_action :authorized, only: [:create]
   before_action :find_user, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -7,17 +7,31 @@ class Api::V1::UsersController < ApplicationController
     render json: @users
   end
 
+  def profile
+    render json: current_user, include: ['recipes'], status: :accepted
+  end
+
   def show
-    render json: @user
+    render json: @user, include: ['recipes'], status: :accepted
   end
 
   def create
-    @user = User.create(user_params)
+    byebug
+
+    combined_params = {}.merge(user_params)
+
+    if combined_params[:uuid].nil?
+      combined_params[:uuid] = UUID.new.generate
+    end
+
+    @user = User.create(combined_params)
     if @user.valid?
-      render json: @user, include: 'recipes.**',
-        status: :created
-        # { user: UserSerializer.new(@user) }, 
-        # status: :created
+      token = encode_token({ user_id: @user.id })
+        render json: { 
+          user: UserShortSerializer.new(@user), 
+          jwt: token 
+        }, status: :accepted
+      # render json: @user, include: ['recipes.*'], status: :created
     else
       render json: 
         { error: 'failed to create user' }, 
@@ -26,32 +40,49 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update
-    @user.update(user_params)
-    if @user.save
-      render json: @user, status: :accepted
-    else
-      render json: 
-        { error: 'failed to update user', errors: @user.errors_full_messages }, 
-        status: :unprocessible_entity
+    if @user == current_user
+      @user.update(user_params)
+      if @user.save
+        render json: {user: UserShortSerializer.new(@user) }, status: :accepted
+      else
+        render json: { 
+          error: 'failed to update user', 
+          errors: @user.errors_full_messages 
+        }, status: :unprocessible_entity
+      end
+    else 
+      render json: { 
+        error: 'invalid user', 
+        errors: ['cannot modify another user']
+      }, status: :unauthorized
     end
+
   end
 
   def destroy
-    if @user.destroy
-      render json:
-        { player_destroyed: true },
-        status: :accepted
+    if @user == current_user
+      @user.update(user_params)
+      if @user.destroy
+        render json:
+          { user_destroyed: true },
+          status: :accepted
+      else 
+        render json:
+          { error: 'failed to delete user', errors: @user.errors_full_messages },
+          status: :unprocessible_entity
+      end
     else 
-      render json:
-        { error: 'failed to delete user', errors: @user.errors_full_messages },
-        status: :unprocessible_entity
+      render json: { 
+        error: 'invalid user', 
+        errors: ['cannot modify another user']
+      }, status: :unauthorized
     end
   end
 
   private
 
     def user_params
-      params.require(:user).permit(:id, :uuid, :username, :password)
+      params.require(:user).permit(:id, :uuid, :username, :email, :password)
     end
 
     def find_user

@@ -1,5 +1,5 @@
 class Api::V1::RecipeStepsController < ApplicationController
-  # skip_before_action :authorized, only: [:index]
+  skip_before_action :authorized, only: [:index]
   before_action :find_recipe_step, only: [:show, :edit, :update, :destroy]
 
   def index
