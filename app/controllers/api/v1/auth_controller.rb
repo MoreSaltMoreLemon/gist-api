@@ -12,6 +12,7 @@ class Api::V1::AuthController < ApplicationController
         jwt: token 
       }, status: :accepted
     else
+      byebug
       render json: { message: 'Invalid username or password' }, status: :unauthorized
     end
   end

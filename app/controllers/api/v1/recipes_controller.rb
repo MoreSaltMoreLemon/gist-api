@@ -20,7 +20,10 @@ class Api::V1::RecipesController < ApplicationController
 
   def create
     # byebug
-    @recipe = Recipe.create(recipe_params)
+    combined_params = {}.merge(recipe_params)
+    combined_params[:user] = @user
+
+    @recipe = Recipe.create(combined_params)
     if @recipe.valid?
       render json: @recipe, include: [
         'recipe_steps.*', 
@@ -28,6 +31,7 @@ class Api::V1::RecipesController < ApplicationController
         'recipe_steps.step_sub_recipes.*'
         ], status: :created
     else
+      # byebug
       render json: { error: 'failed to create recipe' }, status: :not_acceptable
     end
   end

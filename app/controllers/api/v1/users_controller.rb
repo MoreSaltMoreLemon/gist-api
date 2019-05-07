@@ -16,8 +16,6 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def create
-    byebug
-
     combined_params = {}.merge(user_params)
 
     if combined_params[:uuid].nil?
@@ -33,6 +31,7 @@ class Api::V1::UsersController < ApplicationController
         }, status: :accepted
       # render json: @user, include: ['recipes.*'], status: :created
     else
+      # byebug
       render json: 
         { error: 'failed to create user' }, 
         status: :not_acceptable
