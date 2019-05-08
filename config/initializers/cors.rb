@@ -11,7 +11,8 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
               'http://localhost:3001', 
               'https://gist.recipes', 
               'http://gist.recipes', 
-              'https://gist-recipes.herokuapp.com'
+              'https://gist-recipes.herokuapp.com',
+              'https://moresaltmorelemon.github.io'
             ]
 
     resource '*',
