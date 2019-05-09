@@ -1,3 +1,13 @@
+Ingredient.destroy_all
+StepIngredient.destroy_all
+StepSubRecipe.destroy_all
+RecipeStep.destroy_all
+Recipe.destroy_all
+Color.destroy_all
+Unit.destroy_all
+User.destroy_all
+
+
 units = [
   {name: 'g', gram_conversion_factor: 1}, 
   {name: 'kg', gram_conversion_factor: 1000},
