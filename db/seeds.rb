@@ -25,7 +25,7 @@ ezra = User.create(
 )
 
 
-spiced_apple_butter = Recipe.create(uuid: '234kljsadfdas4fgf436-q346h', name: 'spiced apple butter', user: ezra)
+spiced_apple_butter = Recipe.create(uuid: '234kljsadfdas4fgf436-q346h', name: 'spiced apple butter', user: ezra, public: true)
 
 step1 = spiced_apple_butter.recipe_steps.build(uuid: '23346jtsrjd4klj436-q346h', sequence_order: 0, instruction: 'mix', name: 'mix', color: '#e3191b', yield: 2000)
 step1.save

@@ -12,7 +12,6 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def show
-    byebug
     render json: @user, include: ['recipes'], status: :accepted
   end
 
