@@ -27,6 +27,13 @@ colors = [ '#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e3191b' ]
 
 colors.map { |color| Color.create(hex: color) }
 
+hold_all_orphans = User.create(
+  uuid: '234aklj4dfad36-q346h',
+  username: 'orphan',
+  password_digest: 'password',
+  email: 'dummy@mail.com'
+)
+
 ezra = User.create(
   uuid: '234klj436-q346h',
   username: 'ezra',
