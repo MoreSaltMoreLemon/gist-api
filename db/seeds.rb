@@ -55,7 +55,6 @@ cinnamon = Ingredient.create(uuid: '234klj43233dxfh-fg-4t6-q346h', name: "cinnam
 
 recipe_apple_butter = Recipe.create(uuid: '2342klkj34lj436-q346h', user: ezra, name: 'apple butter', yield: 8000)
 
-# byebug
 step_apple_butter = step1.step_sub_recipes.build(uuid: '234kl22_kh35-fd-j436-q346h', sub_recipe: recipe_apple_butter, sequence_order: 0, quantity: 2000)
 step_apple_butter.save
 step1.step_ingredients.build(
@@ -97,7 +96,6 @@ step_ing_apples = other_step.step_ingredients.build(
   ingredient: ing_apples,
   sequence_order: 0
 ).save
-# byebug
 
 step_ing_orange_zest = other_step.step_ingredients.build(
   uuid: '234kalj436-q3a346h',

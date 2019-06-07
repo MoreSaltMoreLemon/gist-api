@@ -8,12 +8,10 @@ class Api::V1::StepSubRecipesController < ApplicationController
   end
 
   def show
-    # byebug
     render json: @step_sub_recipe, include: ['sub_recipe.*'], status: :accepted
   end
 
   def create
-    # byebug
     @recipe = Recipe.find_by(name: step_sub_recipe_params[:sub_recipe][:name])
     if @recipe.nil?
       @user = User.find(step_sub_recipe_params[:sub_recipe][:user_id])
@@ -31,7 +29,6 @@ class Api::V1::StepSubRecipesController < ApplicationController
       )
     end
     @recipe_step = RecipeStep.find(step_sub_recipe_params[:recipe_step_id])
-    # byebug
   
     # monstrosity used to get around Rails odd handling of errors when
     # creating a record. Cannot dirctly use strong params to create as it
@@ -56,7 +53,6 @@ class Api::V1::StepSubRecipesController < ApplicationController
   end
 
   def update
-    # byebug
     @recipe = Recipe.find_by(name: step_sub_recipe_params[:sub_recipe][:name])
     if @recipe.nil?
       @user = User.find(step_sub_recipe_params[:sub_recipe][:user_id])
@@ -72,9 +68,8 @@ class Api::V1::StepSubRecipesController < ApplicationController
         name: step_sub_recipe_params[:sub_recipe][:name], 
         user: @user
       )
-      # byebug
+
     end
-    # byebug
     # monstrosity used to get around Rails odd handling of errors when
     # creating a record. Cannot dirctly use strong params to create as it
     # needs the reference to the ingredient and nested params are garbage.
@@ -88,7 +83,7 @@ class Api::V1::StepSubRecipesController < ApplicationController
       sequence_order: step_sub_recipe_params[:sequence_order] || 0,
       is_sub_recipe: true,
       sub_recipe: @recipe)
-    # byebug
+
     if @step_sub_recipe.save
       render json: @step_sub_recipe, include: ['sub_recipe.*'], status: :accepted
     else
@@ -99,7 +94,6 @@ class Api::V1::StepSubRecipesController < ApplicationController
   end
 
   def destroy
-    # byebug
     if @step_sub_recipe.destroy
       render json:
         { step_sub_recipe_destroyed: true },
@@ -123,7 +117,6 @@ class Api::V1::StepSubRecipesController < ApplicationController
     end
 
     def find_step_sub_recipe
-      # byebug
       @step_sub_recipe = StepSubRecipe.find(params[:id])
     end
 end

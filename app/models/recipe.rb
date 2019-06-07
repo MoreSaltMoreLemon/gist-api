@@ -14,7 +14,6 @@ class Recipe < ApplicationRecord
 
 
   def next_sequence_order
-    # byebug
     if self.recipe_steps.empty?
       0
     else

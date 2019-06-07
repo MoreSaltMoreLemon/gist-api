@@ -4,10 +4,7 @@ class Api::V1::RecipesController < ApplicationController
 
   def index
     @recipes = Recipe.all
-    # byebug
-    render json: @recipes, each_serializer: RecipeShortSerializer, status: :accepted
-    #ActiveModel::SerializableResource.new(@recipes, adapter: :json_api).to_json #
-    
+    render json: @recipes, each_serializer: RecipeShortSerializer, status: :accepted  
   end
 
   def show
@@ -19,7 +16,6 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def create
-    # byebug
     combined_params = {}.merge(recipe_params)
     combined_params[:user] = @user
 
@@ -31,13 +27,11 @@ class Api::V1::RecipesController < ApplicationController
         'recipe_steps.step_sub_recipes.*'
         ], status: :created
     else
-      # byebug
       render json: { error: 'failed to create recipe' }, status: :not_acceptable
     end
   end
 
   def update
-    # byebug
     @recipe.update(recipe_params)
     if @recipe.save
       render json: @recipe, include: [
@@ -53,8 +47,6 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def destroy
-    # byebug
-    # @recipe.step_sub_recipes
     if @recipe.destroy
       render json:
         { recipe_destroyed: true },
@@ -77,7 +69,6 @@ class Api::V1::RecipesController < ApplicationController
     end
 
     def find_recipe
-      # byebug
       @recipe = Recipe.find(params[:id])
     end
 end

@@ -8,13 +8,10 @@ class Api::V1::StepIngredientsController < ApplicationController
   end
 
   def show
-    # byebug
     render json: @step_ingredient, include: ['ingredient.*'], status: :accepted
   end
 
-  def create
-    # byebug
-    
+  def create  
     @ingredient = Ingredient.find_by(name: step_ingredient_params[:ingredient][:name])
     if @ingredient.nil?
       if step_ingredient_params[:ingredient][:uuid].nil?
@@ -30,7 +27,6 @@ class Api::V1::StepIngredientsController < ApplicationController
     end
 
     @recipe_step = RecipeStep.find(step_ingredient_params[:recipe_step_id])
-    # byebug
     # monstrosity used to get around Rails odd handling of errors when
     # creating a record. Cannot dirctly use strong params to create as it
     # needs the reference to the ingredient and nested params are garbage.
@@ -47,7 +43,6 @@ class Api::V1::StepIngredientsController < ApplicationController
     if @step_ingredient.valid?
       render json: @step_ingredient, include: ['ingredient.*'], status: :created
     else
-      byebug
       render json: 
         { error: 'failed to create step_ingredient' }, 
         status: :not_acceptable
@@ -55,9 +50,8 @@ class Api::V1::StepIngredientsController < ApplicationController
   end
 
   def update
-    # byebug
     @ingredient = Ingredient.find_or_create_by(name: step_ingredient_params[:ingredient][:name])
-    # byebug
+    
     # monstrosity used to get around Rails odd handling of errors when
     # creating a record. Cannot dirctly use strong params to create as it
     # needs the reference to the ingredient and nested params are garbage.
@@ -71,7 +65,7 @@ class Api::V1::StepIngredientsController < ApplicationController
       sequence_order: step_ingredient_params[:sequence_order] || 0,
       is_sub_recipe: false,
       ingredient: @ingredient)
-    # byebug
+
     if @step_ingredient.save
       render json: @step_ingredient, include: ['ingredient.*'], status: :accepted
     else
@@ -82,7 +76,6 @@ class Api::V1::StepIngredientsController < ApplicationController
   end
 
   def destroy
-    # byebug
     if @step_ingredient.destroy
       render json:
         { step_ingredient_destroyed: true },
@@ -102,7 +95,6 @@ class Api::V1::StepIngredientsController < ApplicationController
     end
 
     def find_step_ingredient
-      # byebug
       @step_ingredient = StepIngredient.find(params[:id])
     end
 end

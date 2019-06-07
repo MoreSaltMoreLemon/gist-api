@@ -29,9 +29,7 @@ class Api::V1::UsersController < ApplicationController
           user: UserShortSerializer.new(@user), 
           jwt: token 
         }, status: :accepted
-      # render json: @user, include: ['recipes.*'], status: :created
     else
-      # byebug
       render json: 
         { error: 'failed to create user' }, 
         status: :not_acceptable

@@ -20,7 +20,6 @@ class Api::V1::RecipeStepsController < ApplicationController
       uuid = recipe_step_params[:uuid]
     end
     
-    # byebug
     @recipe_step = RecipeStep.create(
       recipe: @recipe,
       uuid: uuid,
@@ -35,7 +34,6 @@ class Api::V1::RecipeStepsController < ApplicationController
     if @recipe_step.valid?
       render json: @recipe_step, include: ['step_ingredients.*', 'step_sub_recipes.*'], status: :created
     else
-      byebug
       render json: 
         { error: 'failed to create recipe_step' }, 
         status: :not_acceptable
@@ -43,7 +41,6 @@ class Api::V1::RecipeStepsController < ApplicationController
   end
 
   def update
-    # byebug
     @recipe_step.update(recipe_step_params)
     if @recipe_step.save
       render json: @recipe_step, include: ['step_ingredients.*', 'step_sub_recipes.*'], status: :accepted
@@ -55,7 +52,6 @@ class Api::V1::RecipeStepsController < ApplicationController
   end
 
   def destroy
-    # byebug
     if @recipe_step.destroy
       render json:
         { player_destroyed: true },
